@@ -1,4 +1,4 @@
-import "./global.css"
+import styles from "./01.module.css";
 
 const VariantsStyle = { 
   primary: { backgroundColor: '#646cff'},
@@ -22,7 +22,7 @@ const Button = ({ variant = 'default', size, children }) => {
 
   return (
   <button
-    className="button"
+    className={styles.button}
     style={style}
     >
     {children}
@@ -33,7 +33,7 @@ const Demo = () => {
   return (
     <div 
       style = {{['--bg-color']: '#F1F1F1'}}
-      className="container"
+      className={styles.container}
     >
       <Button variant="primary" size="small">
         Primary small
