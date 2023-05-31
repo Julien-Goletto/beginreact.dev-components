@@ -32,11 +32,13 @@ const ShoppingList = () => {
     <div className={styles['shopping-list']}>
       <h2>Shopping List</h2>
       <div className={styles['shopping-list-items']}>
-        {/* 💣 supprime cette ligne */}
-        <ShoppingItem name="Milk" quantity={2} checked={false} />
-        {/* 🦁 Fais une liste en utilisant ShoppingListData */}
-        {/* 💡 ShoppingListData.map(item => ()) */}
-        {/* 💡 N'oublie pas la `key` */}
+        <ul>
+          {
+            ShoppingListData.map((item) => (
+              <ShoppingItem key={item.id} name={item.name} quantity={item.quantity} checked={item.checked} />
+            ))
+          }
+        </ul>
       </div>
     </div>
   );
