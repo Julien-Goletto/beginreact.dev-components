@@ -1,4 +1,4 @@
-const baseStyle = { color: '#FFF', borderColor: 'transparent', borderRadius: 4, fontWeight: 500}
+import "./global.css"
 
 const VariantsStyle = { 
   primary: { backgroundColor: '#646cff'},
@@ -12,21 +12,29 @@ const SizeStyles = {
 }
 
 const Button = ({ variant = 'default', size, children }) => {
-  // 🦁 Utiliser les objets VariantsStyle et SizesStyle pour appliquer les styles
   const variantStyle = VariantsStyle[variant];
   const sizeStyle = SizeStyles[size];
-  const style = { ...baseStyle, ...variantStyle, ...sizeStyle}
+  const style = { 
+    ['--background-color']: variantStyle.backgroundColor,
+    ['--padding']: sizeStyle.padding,
+    ['--font-size']: sizeStyle.fontSize,
+  }
 
   return (
   <button
-    style={style}>
+    className="button"
+    style={style}
+    >
     {children}
   </button>);
 };
 
 const Demo = () => {
   return (
-    <div style = {{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.5rem'}}>
+    <div 
+      style = {{['--bg-color']: '#F1F1F1'}}
+      className="container"
+    >
       <Button variant="primary" size="small">
         Primary small
       </Button>
