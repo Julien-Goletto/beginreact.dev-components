@@ -36,9 +36,9 @@ const ShoppingList = () => {
       <div className={styles['shopping-list-items']}>
         <ul>
           {
-            ShoppingListData.map((item) => 
-            item.quantity <= 0 ? null :
-            (
+            ShoppingListData
+              .filter((item) => item.quantity > 0)
+              .map((item) => (
               <ShoppingItem
                 key={item.id} 
                 name={item.name} 
