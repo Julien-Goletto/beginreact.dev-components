@@ -1,54 +1,34 @@
-import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const UserForm = ({onSubmitUser}) => {
 
-  const nameRef = useRef('');
-  const passwordRef = useRef('');
-  const [ error, setError] = useState('');
+const { register, handleSubmit, formState: {errors}} = useForm();
 
-  const areInputsChecked = (name, password) => {
-    if (password.length < 7){
-      setError("Password must be at least 8 characters long.");
-      return false;
-    }
-    return true;
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const name = nameRef.current.value
-    const password = passwordRef.current.value
-    if (areInputsChecked(name, password)) {
-      console.log("pas d'erreur");
-      return onSubmitUser({name, password});
-    }
-  }
-
-  const onChange = () => {
-    setError('');
+  const onSubmit = (data) => {
+    onSubmitUser(data)
   }
 
   return (
-    // 🦁 ajoute onSubmit en passant la fonction handleSubmit
-    <form className="vertical-stack form" onSubmit={handleSubmit}>
+    <form className="vertical-stack form" onSubmit={handleSubmit(onSubmit)}>
       <label>
         Name
-        <input id="name" htmlFor="name" type="text" name="name" ref={nameRef} />
+        <input placeholder="Mon nom..." {...register("name", {required: true})} aria-invalid={errors.name}/>
       </label>
+      {
+        errors.name?.type === "required" ? <p role="alert" style={{color: 'red'}}>Le nom est requis.</p> : null
+      }
       <div>
         <label>
           Password
-          <input 
-            id="password" 
-            htmlFor="password" 
-            type="password" 
-            name="password" 
-            ref={passwordRef} 
-            onChange={onChange}
-            />
+          <input placeholder="Mon mot de passe..." {...register("password", {required: true, minLength: 8})} aria-invalid={errors.name}/>
         </label>
-        { error ? <p style={{color: 'red'}}>{error}</p> : null }
       </div>
+      {
+        errors.password?.type === "required" ? <p style={{color: 'red'}}>Le mot de passe est requis.</p> : null
+      }
+      {
+        errors.password?.type === "minLength" ? <p style={{color: 'red'}}>Le mot de passe doit être d'une longueur minimale de 8 caractères.</p> : null
+      }
       <input type="submit" value="Submit" />
     </form>
   );
