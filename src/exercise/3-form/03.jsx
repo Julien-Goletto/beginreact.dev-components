@@ -12,22 +12,40 @@ const { register, handleSubmit, formState: {errors}} = useForm();
     <form className="vertical-stack form" onSubmit={handleSubmit(onSubmit)}>
       <label>
         Name
-        <input placeholder="Mon nom..." {...register("name", {required: true})} aria-invalid={errors.name}/>
+        <input 
+          placeholder="Mon nom..." 
+          {
+            ...register("name", {
+              required: "Ce champ est requis",
+              })
+          } 
+          aria-invalid={errors.name}/>
       </label>
       {
-        errors.name?.type === "required" ? <p role="alert" style={{color: 'red'}}>Le nom est requis.</p> : null
+        errors.name?.type === "required" ? <p role="alert" style={{color: 'red'}}>{errors.name?.message}</p> : null
       }
       <div>
         <label>
           Password
-          <input placeholder="Mon mot de passe..." {...register("password", {required: true, minLength: 8})} aria-invalid={errors.name}/>
+          <input 
+            placeholder="Mon mot de passe..." 
+            {
+              ...register("password", {
+                required: "Ce champ est requis", 
+                minLength: { 
+                  value: 8, 
+                  message: "Le mot de passe doit être d'une longueur minimale de 8 caractères.",
+                  },
+              })
+            } 
+            aria-invalid={errors.name}/>
         </label>
       </div>
       {
-        errors.password?.type === "required" ? <p style={{color: 'red'}}>Le mot de passe est requis.</p> : null
+        errors.password?.type === "required" ? <p style={{color: 'red'}}>{errors.password?.message}</p> : null
       }
       {
-        errors.password?.type === "minLength" ? <p style={{color: 'red'}}>Le mot de passe doit être d'une longueur minimale de 8 caractères.</p> : null
+        errors.password?.type === "minLength" ? <p style={{color: 'red'}}></p> : null
       }
       <input type="submit" value="Submit" />
     </form>
