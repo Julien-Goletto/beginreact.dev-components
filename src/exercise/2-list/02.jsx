@@ -17,8 +17,10 @@ const ShoppingItem = ({ name, quantity, checked }) => {
   return (
     <div className={styles['shopping-item']}>
       <div className={styles.section}>
-        <p>{name}</p>
-        <p className={styles.badge}>{quantity}</p>
+        <p style={name.length <= 2 ? {color: 'red'} : {color: 'green'}}>{name}</p>
+        {
+          quantity !== 1 ? <p className={styles.badge}>{quantity}</p> : null 
+        }
       </div>
       <div className={styles.section}>
         <input type="checkbox" defaultChecked={checked} />
@@ -34,8 +36,15 @@ const ShoppingList = () => {
       <div className={styles['shopping-list-items']}>
         <ul>
           {
-            ShoppingListData.map((item) => (
-              <ShoppingItem key={item.id} name={item.name} quantity={item.quantity} checked={item.checked} />
+            ShoppingListData.map((item) => 
+            item.quantity <= 0 ? null :
+            (
+              <ShoppingItem
+                key={item.id} 
+                name={item.name} 
+                quantity={item.quantity} 
+                checked={item.checked} 
+              />
             ))
           }
         </ul>
